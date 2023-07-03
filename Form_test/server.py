@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 
 app = Flask(__name__)
-# nuestra ruta de índice manejará la representación de nuestro formulario
+app.secret_key = 'keep it secret, keep it safe' # establece una clave secreta
 
 @app.route('/')
 def index():
@@ -10,10 +10,17 @@ def index():
 @app.route('/users', methods=['POST'])
 def create_user():
     print("Got Post Info")
-    print(request.form)
-    # Nunca renderices una plantilla en una solicitud POST
-    # En su lugar, redirigiremos a nuestra ruta de índice
-    return redirect('/')
+    session['username'] = request.form['name']
+    session['useremail'] = request.form['email']
+    return redirect('/show')
+
+@app.route('/show')
+def show_user():
+    return render_template('show.html')
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
