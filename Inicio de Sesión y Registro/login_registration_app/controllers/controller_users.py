@@ -22,8 +22,8 @@ def new_user():
         password_encriptado = bcrypt.generate_password_hash(data["password"])
         data["password"] = password_encriptado
         id_user = User.create_one(data)
-        session["first_name"] = ["first_name"]
-        session["last_name"] = ["last_name"]
+        session["first_name"] = data["first_name"]
+        session["last_name"] = data["last_name"]
         session["id_user"] = id_user
         return redirect("/dashboard")
 
